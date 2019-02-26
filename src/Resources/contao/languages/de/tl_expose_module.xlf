@@ -6,7 +6,7 @@
         <source>Individuelles Immobilien-Template</source>
         <target>Individuelles Immobilien-Template</target>
       </trans-unit>
-      <trans-unit id="tl_expose_module.hideOnEmpty.1">
+      <trans-unit id="tl_expose_module.realEstateTemplate.1">
         <source>Hier können Sie das Standard-Template überschreiben.</source>
         <target>Hier können Sie das Standard-Template überschreiben.</target>
       </trans-unit>
