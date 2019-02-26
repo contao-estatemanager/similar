@@ -2,29 +2,13 @@
 <xliff version="1.1">
   <file datatype="php" original="src/Resources/contao/languages/en/tl_expose_module.php" source-language="en" target-language="de">
     <body>
-      <trans-unit id="tl_expose_module.jumpTo.0">
-        <source>Redirect page</source>
-        <target>Weiterleitungsseite</target>
-      </trans-unit>
-      <trans-unit id="tl_expose_module.jumpTo.1">
-        <source>Please choose the page to which visitors will be redirected when clicking a link or submitting a form.</source>
-        <target>Bitte wählen Sie die Seite aus, zu der Besucher beim Anklicken eines Links oder Abschicken eines Formulars weitergeleitet werden.</target>
-      </trans-unit>
-      <trans-unit id="tl_expose_module.perPage.0">
-        <source>Items per page</source>
-        <target>Elemente pro Seite</target>
-      </trans-unit>
-      <trans-unit id="tl_expose_module.perPage.1">
-        <source>The number of items per page. Set to 0 to disable pagination.</source>
-        <target>Die Anzahl an Elementen pro Seite. Geben Sie 0 ein, um den automatischen Seitenumbruch zu deaktivieren.</target>
-      </trans-unit>
-      <trans-unit id="tl_expose_module.hideOnEmpty.0">
-        <source>Hide on empty</source>
-        <target>Ausblenden bei keinen Ergebnissen</target>
+      <trans-unit id="tl_expose_module.realEstateTemplate.0">
+        <source>Individuelles Immobilien-Template</source>
+        <target>Individuelles Immobilien-Template</target>
       </trans-unit>
       <trans-unit id="tl_expose_module.hideOnEmpty.1">
-        <source>Dieses Modul wird nur ausgegeben wenn Ergebnisse zum darstellen des Moduls gefunden wurden</source>
-        <target>Dieses Modul wird nur ausgegeben wenn Ergebnisse zum darstellen des Moduls gefunden wurden</target>
+        <source>Hier können Sie das Standard-Template überschreiben.</source>
+        <target>Hier können Sie das Standard-Template überschreiben.</target>
       </trans-unit>
     </body>
   </file>

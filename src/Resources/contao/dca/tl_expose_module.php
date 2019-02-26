@@ -15,32 +15,6 @@ array_insert($GLOBALS['TL_DCA']['tl_expose_module']['palettes'], -1, array
 
 // Add fields
 array_insert($GLOBALS['TL_DCA']['tl_expose_module']['fields'], -1, array(
-    'perPage' => array
-    (
-        'label'                   => &$GLOBALS['TL_LANG']['tl_expose_module']['perPage'],
-        'exclude'                 => true,
-        'inputType'               => 'text',
-        'eval'                    => array('rgxp'=>'natural', 'tl_class'=>'w50'),
-        'sql'                     => "smallint(5) unsigned NOT NULL default '0'"
-    ),
-    'jumpTo' => array
-    (
-        'label'                   => &$GLOBALS['TL_LANG']['tl_expose_module']['jumpTo'],
-        'exclude'                 => true,
-        'inputType'               => 'pageTree',
-        'foreignKey'              => 'tl_page.title',
-        'eval'                    => array('mandatory'=>true, 'fieldType'=>'radio', 'tl_class'=>'clr'),
-        'sql'                     => "int(10) unsigned NOT NULL default '0'",
-        'relation'                => array('type'=>'hasOne', 'load'=>'eager')
-    ),
-    'hideOnEmpty' => array
-    (
-        'label'                   => &$GLOBALS['TL_LANG']['tl_expose_module']['hideOnEmpty'],
-        'exclude'                 => true,
-        'inputType'               => 'checkbox',
-        'eval'                    => array('tl_class'=>'w50 m12'),
-        'sql'                     => "char(1) NOT NULL default ''"
-    ),
     'realEstateTemplate' => array
     (
         'label'                   => &$GLOBALS['TL_LANG']['tl_module']['realEstateTemplate'],
