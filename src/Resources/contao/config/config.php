@@ -7,8 +7,13 @@
  * @license   https://github.com/oveleon/contao-immo-manager-bundle/blob/master/LICENSE
  */
 
-// Add expose module
-array_insert($GLOBALS['FE_EXPOSE_MOD']['miscellaneous'], -1, array
-(
-    'similar' => '\\Oveleon\\ContaoImmoManagerSimilarBundle\\ExposeModuleSimilar',
-));
+// IMMOMANAGER
+$GLOBALS['TL_IMMOMANAGER_ADDONS'][] = array('Oveleon\\ContaoImmoManagerSimilarBundle', 'AddonManager');
+
+if(Oveleon\ContaoImmoManagerSimilarBundle\AddonManager::valid()) {
+    // Add expose module
+    array_insert($GLOBALS['FE_EXPOSE_MOD']['miscellaneous'], -1, array
+    (
+        'similar' => '\\Oveleon\\ContaoImmoManagerSimilarBundle\\ExposeModuleSimilar',
+    ));
+}
