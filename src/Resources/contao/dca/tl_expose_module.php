@@ -19,7 +19,7 @@ if(ContaoEstateManager\Similar\AddonManager::valid()) {
     array_insert($GLOBALS['TL_DCA']['tl_expose_module']['fields'], -1, array(
         'realEstateTemplate' => array
         (
-            'label'                   => &$GLOBALS['TL_LANG']['tl_module']['realEstateTemplate'],
+            'label'                   => &$GLOBALS['TL_LANG']['tl_expose_module']['realEstateTemplate'],
             'default'                 => 'real_estate_default',
             'exclude'                 => true,
             'inputType'               => 'select',
