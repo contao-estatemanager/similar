@@ -20,7 +20,7 @@ if(ContaoEstateManager\Similar\AddonManager::valid()) {
         'realEstateTemplate' => array
         (
             'label'                   => &$GLOBALS['TL_LANG']['tl_expose_module']['realEstateTemplate'],
-            'default'                 => 'real_estate_default',
+            'default'                 => 'real_estate_item_default',
             'exclude'                 => true,
             'inputType'               => 'select',
             'options_callback'        => array('tl_module_estate_manager_similar', 'getRealEstateTemplates'),
@@ -54,6 +54,6 @@ class tl_module_estate_manager_similar extends \Backend
      */
     public function getRealEstateTemplates()
     {
-        return $this->getTemplateGroup('real_estate_');
+        return $this->getTemplateGroup('real_estate_item_');
     }
 }
