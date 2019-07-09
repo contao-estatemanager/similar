@@ -26,8 +26,8 @@ class Plugin implements BundlePluginInterface
     {
         return [
             BundleConfig::create(ContaoImmoManagerSimilarBundle::class)
-                ->setLoadAfter([ContaoCoreBundle::class])
-                ->setReplace(['immo-manager-similar']),
+                ->setLoadAfter([ContaoCoreBundle::class, EstateManager::class])
+                ->setReplace(['estatemanager-similar']),
         ];
     }
 }
