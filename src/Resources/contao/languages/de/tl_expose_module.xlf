@@ -3,8 +3,8 @@
   <file datatype="php" original="src/Resources/contao/languages/en/tl_expose_module.php" source-language="en" target-language="de">
     <body>
       <trans-unit id="tl_expose_module.realEstateTemplate.0">
-        <source>Individuelles Immobilien-Template</source>
-        <target>Individuelles Immobilien-Template</target>
+        <source>Immobilien Template</source>
+        <target>Immobilien Template</target>
       </trans-unit>
       <trans-unit id="tl_expose_module.realEstateTemplate.1">
         <source>Hier können Sie das Standard-Template überschreiben.</source>
