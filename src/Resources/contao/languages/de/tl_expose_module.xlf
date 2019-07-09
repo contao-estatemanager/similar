@@ -10,6 +10,14 @@
         <source>Hier können Sie das Standard-Template überschreiben.</source>
         <target>Hier können Sie das Standard-Template überschreiben.</target>
       </trans-unit>
+      <trans-unit id="tl_expose_module.filterCoarse.0">
+        <source>Coarse filter</source>
+        <target>Filter vergröbern</target>
+      </trans-unit>
+      <trans-unit id="tl_expose_module.filterCoarse.1">
+        <source>Here you can enter a value in percent by which the search is to be coarsened.</source>
+        <target>Hier können Sie einen Wert in Prozent eintragen, um den die Suche vergröbert werden soll.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

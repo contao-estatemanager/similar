@@ -26,7 +26,7 @@ class Plugin implements BundlePluginInterface
     public function getBundles(ParserInterface $parser): array
     {
         return [
-            BundleConfig::create(ContaoImmoManagerSimilarBundle::class)
+            BundleConfig::create(EstateManagerSimilar::class)
                 ->setLoadAfter([ContaoCoreBundle::class, EstateManager::class])
                 ->setReplace(['estatemanager-similar']),
         ];
