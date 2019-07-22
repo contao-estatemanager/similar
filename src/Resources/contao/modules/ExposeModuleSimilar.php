@@ -114,7 +114,7 @@ class ExposeModuleSimilar extends ExposeModule
 
         $arrColumns[] = "$t.id!=?";
         $arrValues[] = $this->realEstate->getId();
-        
+
         $objType = $this->realEstate->getType();
 
         if (!empty($objType->nutzungsart))
@@ -165,6 +165,16 @@ class ExposeModuleSimilar extends ExposeModule
         {
             $arrColumns[] = "$t.".$objType->area."<=?";
             $arrValues[] = $_SESSION['FILTER_DATA']['area_to'];
+        }
+
+        // HOOK: custom filter
+        if (isset($GLOBALS['TL_HOOKS']['getSimilarFilterOptions']) && \is_array($GLOBALS['TL_HOOKS']['getSimilarFilterOptions']))
+        {
+            foreach ($GLOBALS['TL_HOOKS']['getSimilarFilterOptions'] as $callback)
+            {
+                $this->import($callback[0]);
+                $this->{$callback[0]}->{$callback[1]}($arrColumns, $arrValues, $arrOptions, $this->realEstate);
+            }
         }
 
         return array($arrColumns, $arrValues, $arrOptions);
