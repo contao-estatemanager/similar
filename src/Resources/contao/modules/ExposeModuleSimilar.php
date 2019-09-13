@@ -199,6 +199,12 @@ class ExposeModuleSimilar extends ExposeModule
         $arrColumns[] = "$t.".$objType->area."<=?";
         $arrValues[] = floor($areaTo + ($areaTo * ($this->filterCoarse / 100)));
 
+        $arrColumns[] = "(6371*acos(cos(radians(?))*cos(radians($t.breitengrad))*cos(radians($t.laengengrad)-radians(?))+sin(radians(?))*sin(radians($t.breitengrad)))) <= ?";
+        $arrValues[] = $this->realEstate->breitengrad;
+        $arrValues[] = $this->realEstate->laengengrad;
+        $arrValues[] = $this->realEstate->breitengrad;
+        $arrValues[] = $this->similarDistance;
+
         // HOOK: custom filter
         if (isset($GLOBALS['TL_HOOKS']['getSimilarFilterOptions']) && \is_array($GLOBALS['TL_HOOKS']['getSimilarFilterOptions']))
         {

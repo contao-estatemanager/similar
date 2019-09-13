@@ -18,6 +18,14 @@
         <source>Here you can enter a value in percent by which the search is to be coarsened.</source>
         <target>Hier können Sie einen Wert in Prozent eintragen, um den die Suche vergröbert werden soll.</target>
       </trans-unit>
+      <trans-unit id="tl_expose_module.similarDistance.0">
+        <source>Maximum distance</source>
+        <target>Maximale Entfernung</target>
+      </trans-unit>
+      <trans-unit id="tl_expose_module.similarDistance.1">
+        <source>Here you can enter the distance in kilometres that similar properties may be as far away as possible.</source>
+        <target>Hier können Sie die Enfernung in Kilometern eintragen, die ähnliche Immobilien maximal entfernt sein dürfen.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
