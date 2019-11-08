@@ -10,6 +10,7 @@
 
 namespace ContaoEstateManager\Similar;
 
+use Contao\PageModel;
 use ContaoEstateManager\ExposeModule;
 use ContaoEstateManager\RealEstateModel;
 use ContaoEstateManager\FilterSession;
@@ -108,6 +109,18 @@ class ExposeModuleSimilar extends ExposeModule
         $arrColumns = array("$t.published='1'");
         $arrValues = array();
         $arrOptions = array();
+
+        /** @var \PageModel $objPage */
+        global $objPage;
+
+        $pageDetails = $objPage->loadDetails();
+        $objRootPage = \PageModel::findByPk($pageDetails->rootId);
+
+        if ($objRootPage->realEstateQueryLanguage)
+        {
+            $arrColumns[] = "$t.sprache=?";
+            $arrValues[]  = $objRootPage->realEstateQueryLanguage;
+        }
 
         $arrColumns[] = "$t.id!=?";
         $arrValues[] = $this->realEstate->getId();
