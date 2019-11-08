@@ -1,14 +1,12 @@
 <?xml version="1.0" ?>
 <xliff version="1.1">
-  <file datatype="php" original="src/Resources/contao/languages/en/modules.php" source-language="en" target-language="de">
+  <file datatype="php" original="src/Resources/contao/languages/en/modules.php" source-language="en">
     <body>
       <trans-unit id="FMD.similar.0">
         <source>Similar real estate</source>
-        <target>Ähnliche Immobilien</target>
       </trans-unit>
       <trans-unit id="FMD.similar.1">
         <source>Displays a list of similar real estate.</source>
-        <target>Gibt eine Liste ähnlicher Immobilien aus.</target>
       </trans-unit>
     </body>
   </file>
