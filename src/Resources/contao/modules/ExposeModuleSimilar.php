@@ -74,7 +74,14 @@ class ExposeModuleSimilar extends ExposeModule
      */
     protected function countItems()
     {
-        list($arrColumns, $arrValues, $arrOptions) = $this->getFilterOptions();
+        $arrFilterOptions = $this->getFilterOptions();
+
+        if ($arrFilterOptions === null)
+        {
+            return 0;
+        }
+
+        list($arrColumns, $arrValues, $arrOptions) = $arrFilterOptions;
 
         return RealEstateModel::countBy($arrColumns, $arrValues, $arrOptions);
     }
@@ -89,7 +96,14 @@ class ExposeModuleSimilar extends ExposeModule
      */
     protected function fetchItems($limit, $offset)
     {
-        list($arrColumns, $arrValues, $arrOptions) = $this->getFilterOptions();
+        $arrFilterOptions = $this->getFilterOptions();
+
+        if ($arrFilterOptions === null)
+        {
+            return null;
+        }
+
+        list($arrColumns, $arrValues, $arrOptions) = $arrFilterOptions;
 
         $arrOptions['limit']  = $limit;
         $arrOptions['offset'] = $offset;
@@ -126,6 +140,11 @@ class ExposeModuleSimilar extends ExposeModule
         $arrValues[] = $this->realEstate->getId();
 
         $objType = $this->realEstate->getType();
+
+        if ($objType === null)
+        {
+            return null;
+        }
 
         if ($objType->vermarktungsart === 'kauf_erbpacht')
         {
