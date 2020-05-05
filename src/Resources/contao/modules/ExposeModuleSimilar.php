@@ -10,10 +10,12 @@
 
 namespace ContaoEstateManager\Similar;
 
+use Contao\BackendTemplate;
 use Contao\PageModel;
 use ContaoEstateManager\ExposeModule;
 use ContaoEstateManager\RealEstateModel;
 use ContaoEstateManager\FilterSession;
+use Patchwork\Utf8;
 
 /**
  * Expose module "similar".
@@ -43,7 +45,7 @@ class ExposeModuleSimilar extends ExposeModule
     {
         if (TL_MODE == 'BE')
         {
-            $objTemplate = new \BackendTemplate('be_wildcard');
+            $objTemplate = new BackendTemplate('be_wildcard');
             $objTemplate->wildcard = '### ' . Utf8::strtoupper($GLOBALS['TL_LANG']['FMD']['similar'][0]) . ' ###';
             $objTemplate->title = $this->headline;
             $objTemplate->id = $this->id;
@@ -124,11 +126,11 @@ class ExposeModuleSimilar extends ExposeModule
         $arrValues = array();
         $arrOptions = array();
 
-        /** @var \PageModel $objPage */
+        /** @var PageModel $objPage */
         global $objPage;
 
         $pageDetails = $objPage->loadDetails();
-        $objRootPage = \PageModel::findByPk($pageDetails->rootId);
+        $objRootPage = PageModel::findByPk($pageDetails->rootId);
 
         if ($objRootPage->realEstateQueryLanguage)
         {
