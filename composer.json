@@ -2,7 +2,7 @@
   "name":"contao-estatemanager/similar",
   "type":"contao-bundle",
   "description":"Similar Objects Extension for Contao EstateManager",
-  "keywords":["contao","estatemanager","real estate","estate","property","similar"],
+  "keywords":["contao", "immobilien", "manager", "property", "realestate", "similar"],
   "homepage":"https://www.contao-estatemanager.com/",
   "license":"proprietary",
   "authors":[
