@@ -3,12 +3,12 @@
   <file datatype="php" original="src/Resources/contao/languages/en/modules.php" source-language="en" target-language="de">
     <body>
       <trans-unit id="FMD.similar.0">
-        <source>Similar real estate</source>
-        <target>Ähnliche Immobilien</target>
+        <source>Similar properties</source>
+        <target>Ähnliche Objekte</target>
       </trans-unit>
       <trans-unit id="FMD.similar.1">
-        <source>Displays a list of similar real estate.</source>
-        <target>Gibt eine Liste ähnlicher Immobilien aus.</target>
+        <source>Displays a list of similar real estates.</source>
+        <target>Gibt eine Liste ähnlicher Objekte aus.</target>
       </trans-unit>
     </body>
   </file>
