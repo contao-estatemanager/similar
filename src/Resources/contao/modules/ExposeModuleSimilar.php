@@ -10,10 +10,12 @@
 
 namespace ContaoEstateManager\Similar;
 
+use Contao\BackendTemplate;
 use Contao\PageModel;
 use ContaoEstateManager\ExposeModule;
 use ContaoEstateManager\RealEstateModel;
 use ContaoEstateManager\FilterSession;
+use Patchwork\Utf8;
 
 /**
  * Expose module "similar".
@@ -43,7 +45,7 @@ class ExposeModuleSimilar extends ExposeModule
     {
         if (TL_MODE == 'BE')
         {
-            $objTemplate = new \BackendTemplate('be_wildcard');
+            $objTemplate = new BackendTemplate('be_wildcard');
             $objTemplate->wildcard = '### ' . Utf8::strtoupper($GLOBALS['TL_LANG']['FMD']['similar'][0]) . ' ###';
             $objTemplate->title = $this->headline;
             $objTemplate->id = $this->id;
@@ -72,7 +74,7 @@ class ExposeModuleSimilar extends ExposeModule
      *
      * @return integer
      */
-    protected function countItems()
+    protected function countItems(): int
     {
         $arrFilterOptions = $this->getFilterOptions();
 
@@ -92,9 +94,9 @@ class ExposeModuleSimilar extends ExposeModule
      * @param integer $limit
      * @param integer $offset
      *
-     * @return \Model\Collection|RealEstateModel|null
+     * @return Contao\Model\Collection|RealEstateModel|null
      */
-    protected function fetchItems($limit, $offset)
+    protected function fetchItems($limit, $offset): ?object
     {
         $arrFilterOptions = $this->getFilterOptions();
 
@@ -116,7 +118,7 @@ class ExposeModuleSimilar extends ExposeModule
      *
      * @return array
      */
-    protected function getFilterOptions()
+    protected function getFilterOptions(): array
     {
         $t = 'tl_real_estate';
 
@@ -124,11 +126,11 @@ class ExposeModuleSimilar extends ExposeModule
         $arrValues = array();
         $arrOptions = array();
 
-        /** @var \PageModel $objPage */
+        /** @var PageModel $objPage */
         global $objPage;
 
         $pageDetails = $objPage->loadDetails();
-        $objRootPage = \PageModel::findByPk($pageDetails->rootId);
+        $objRootPage = PageModel::findByPk($pageDetails->rootId);
 
         if ($objRootPage->realEstateQueryLanguage)
         {
@@ -137,7 +139,7 @@ class ExposeModuleSimilar extends ExposeModule
         }
 
         $arrColumns[] = "$t.id!=?";
-        $arrValues[] = $this->realEstate->getId();
+        $arrValues[] = $this->realEstate->id;
 
         $objType = $this->realEstate->getType();
 
@@ -173,8 +175,9 @@ class ExposeModuleSimilar extends ExposeModule
         {
             $priceFrom = $this->realEstate->{$objType->price};
         }
+
         $arrColumns[] = "$t.".$objType->price.">=?";
-        $arrValues[] = ($priceFrom - ($priceFrom * ($this->filterCoarse / 100)));
+        $arrValues[] = ($priceFrom - ($priceFrom * ($this->filterCoarse / 100))) > 0 ?: 0;
 
         if ($_SESSION['FILTER_DATA']['price_to'])
         {
@@ -195,8 +198,9 @@ class ExposeModuleSimilar extends ExposeModule
         {
             $roomFrom = $this->realEstate->anzahlZimmer;
         }
+
         $arrColumns[] = "$t.anzahlZimmer>=?";
-        $arrValues[] = floor($roomFrom - ($roomFrom * ($this->filterCoarse / 100)));
+        $arrValues[] = floor($roomFrom - ($roomFrom * ($this->filterCoarse / 100))) > 0 ?: 0;
 
         if ($_SESSION['FILTER_DATA']['room_to'])
         {
@@ -207,7 +211,7 @@ class ExposeModuleSimilar extends ExposeModule
             $roomTo = $this->realEstate->anzahlZimmer;
         }
         $arrColumns[] = "$t.anzahlZimmer<=?";
-        $arrValues[] = ceil($roomTo - ($roomTo * ($this->filterCoarse / 100)));
+        $arrValues[] = ceil($roomTo + ($roomTo * ($this->filterCoarse / 100)));
 
         if ($_SESSION['FILTER_DATA']['area_from'])
         {
@@ -218,7 +222,7 @@ class ExposeModuleSimilar extends ExposeModule
             $areaFrom =  $this->realEstate->{$objType->area};
         }
         $arrColumns[] = "$t.".$objType->area.">=?";
-        $arrValues[] = ($areaFrom - ($areaFrom * ($this->filterCoarse / 100)));
+        $arrValues[] = ($areaFrom - ($areaFrom * ($this->filterCoarse / 100))) > 0 ?: 0;
 
         if ($_SESSION['FILTER_DATA']['area_to'])
         {

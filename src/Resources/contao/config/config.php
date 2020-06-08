@@ -9,12 +9,9 @@
  */
 
 // ESTATEMANAGER
-$GLOBALS['TL_ESTATEMANAGER_ADDONS'][] = array('ContaoEstateManager\\Similar', 'AddonManager');
+$GLOBALS['TL_ESTATEMANAGER_ADDONS'][] = array('ContaoEstateManager\Similar', 'AddonManager');
 
 if(ContaoEstateManager\Similar\AddonManager::valid()) {
     // Add expose module
-    array_insert($GLOBALS['FE_EXPOSE_MOD']['miscellaneous'], -1, array
-    (
-        'similar' => '\\ContaoEstateManager\\Similar\\ExposeModuleSimilar',
-    ));
+    $GLOBALS['FE_EXPOSE_MOD']['miscellaneous']['similar'] = 'ContaoEstateManager\Similar\ExposeModuleSimilar';
 }
