@@ -17,10 +17,16 @@ use ContaoEstateManager\EstateManager;
 class AddonManager
 {
     /**
-     * Addon name
+     * Bundle name
      * @var string
      */
-    public static $name = 'Similar Objects';
+    public static $bundle = 'EstateManagerSimilar';
+
+    /**
+     * Package
+     * @var string
+     */
+    public static $package = 'contao-estatemanager/similar';
 
     /**
      * Addon config key
