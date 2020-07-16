@@ -85,7 +85,7 @@ class ExposeModuleSimilar extends ExposeModule
 
         list($arrColumns, $arrValues, $arrOptions) = $arrFilterOptions;
 
-        return RealEstateModel::countBy($arrColumns, $arrValues, $arrOptions);
+        return RealEstateModel::countPublishedBy($arrColumns, $arrValues, $arrOptions);
     }
 
     /**
@@ -110,7 +110,7 @@ class ExposeModuleSimilar extends ExposeModule
         $arrOptions['limit']  = $limit;
         $arrOptions['offset'] = $offset;
 
-        return RealEstateModel::findBy($arrColumns, $arrValues, $arrOptions);
+        return RealEstateModel::findPublishedBy($arrColumns, $arrValues, $arrOptions);
     }
 
     /**
@@ -122,7 +122,7 @@ class ExposeModuleSimilar extends ExposeModule
     {
         $t = 'tl_real_estate';
 
-        $arrColumns = array("$t.published='1'");
+        $arrColumns = array();
         $arrValues = array();
         $arrOptions = array();
 
