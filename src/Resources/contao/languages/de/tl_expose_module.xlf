@@ -23,8 +23,8 @@
         <target>Maximale Entfernung</target>
       </trans-unit>
       <trans-unit id="tl_expose_module.similarDistance.1">
-        <source>Here you can enter the radius in km in which similar real estate are considered.</source>
-        <target>Hier können Sie den Radius in km eingeben, in welchem ähnliche Immobilien berücksichtigt werden.</target>
+        <source>Here you can enter the radius in km in which similar real estate are considered. Enter 0 to not perform a proximity search.</source>
+        <target>Hier können Sie den Radius in km eingeben, in welchem ähnliche Immobilien berücksichtigt werden. Geben Sie 0 ein, um keine Radius-Abfrage durchzuführen.</target>
       </trans-unit>
     </body>
   </file>
