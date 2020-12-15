@@ -118,7 +118,7 @@ class ExposeModuleSimilar extends ExposeModule
      *
      * @return array
      */
-    protected function getFilterOptions(): array
+    protected function getFilterOptions(): ?array
     {
         $t = 'tl_real_estate';
 
@@ -171,75 +171,100 @@ class ExposeModuleSimilar extends ExposeModule
         {
             $priceFrom = intval($_SESSION['FILTER_DATA']['price_from']);
         }
-        else
+        elseif($this->realEstate->{$objType->price})
         {
             $priceFrom = $this->realEstate->{$objType->price};
         }
 
-        $arrColumns[] = "$t.".$objType->price.">=?";
-        $arrValues[] = ($priceFrom - ($priceFrom * ($this->filterCoarse / 100))) > 0 ?: 0;
+        if($priceFrom)
+        {
+            $arrColumns[] = "$t.".$objType->price.">=?";
+            $arrValues[] = ($priceFrom - ($priceFrom * ($this->filterCoarse / 100))) > 0 ?: 0;
+        }
 
         if ($_SESSION['FILTER_DATA']['price_to'])
         {
             $priceTo = intval($_SESSION['FILTER_DATA']['price_to']);
         }
-        else
+        elseif($this->realEstate->{$objType->price})
         {
             $priceTo = $this->realEstate->{$objType->price};
         }
-        $arrColumns[] = "$t.".$objType->price."<=?";
-        $arrValues[] = ($priceTo + ($priceTo * ($this->filterCoarse / 100)));
+
+        if($priceTo)
+        {
+            $arrColumns[] = "$t.".$objType->price."<=?";
+            $arrValues[] = ($priceTo + ($priceTo * ($this->filterCoarse / 100)));
+        }
 
         if ($_SESSION['FILTER_DATA']['room_from'])
         {
             $roomFrom = intval($_SESSION['FILTER_DATA']['room_from']);
         }
-        else
+        elseif($this->realEstate->anzahlZimmer)
         {
             $roomFrom = $this->realEstate->anzahlZimmer;
         }
 
-        $arrColumns[] = "$t.anzahlZimmer>=?";
-        $arrValues[] = floor($roomFrom - ($roomFrom * ($this->filterCoarse / 100))) > 0 ?: 0;
+        if($roomFrom)
+        {
+            $arrColumns[] = "$t.anzahlZimmer>=?";
+            $arrValues[] = floor($roomFrom - ($roomFrom * ($this->filterCoarse / 100))) > 0 ?: 0;
+        }
 
         if ($_SESSION['FILTER_DATA']['room_to'])
         {
             $roomTo = intval($_SESSION['FILTER_DATA']['room_to']);
         }
-        else
+        elseif($this->realEstate->anzahlZimmer)
         {
             $roomTo = $this->realEstate->anzahlZimmer;
         }
-        $arrColumns[] = "$t.anzahlZimmer<=?";
-        $arrValues[] = ceil($roomTo + ($roomTo * ($this->filterCoarse / 100)));
+
+        if($roomTo)
+        {
+            $arrColumns[] = "$t.anzahlZimmer<=?";
+            $arrValues[] = ceil($roomTo + ($roomTo * ($this->filterCoarse / 100)));
+        }
 
         if ($_SESSION['FILTER_DATA']['area_from'])
         {
             $areaFrom = intval($_SESSION['FILTER_DATA']['area_from']);
         }
-        else
+        elseif($this->realEstate->{$objType->area})
         {
-            $areaFrom =  $this->realEstate->{$objType->area};
+            $areaFrom = $this->realEstate->{$objType->area};
         }
-        $arrColumns[] = "$t.".$objType->area.">=?";
-        $arrValues[] = ($areaFrom - ($areaFrom * ($this->filterCoarse / 100))) > 0 ?: 0;
+
+        if($areaFrom)
+        {
+            $arrColumns[] = "$t.".$objType->area.">=?";
+            $arrValues[] = ($areaFrom - ($areaFrom * ($this->filterCoarse / 100))) > 0 ?: 0;
+        }
 
         if ($_SESSION['FILTER_DATA']['area_to'])
         {
             $areaTo = intval($_SESSION['FILTER_DATA']['area_to']);
         }
-        else
+        elseif($this->realEstate->{$objType->area})
         {
             $areaTo =  $this->realEstate->{$objType->area};
         }
-        $arrColumns[] = "$t.".$objType->area."<=?";
-        $arrValues[] = floor($areaTo + ($areaTo * ($this->filterCoarse / 100)));
 
-        $arrColumns[] = "(6371*acos(cos(radians(?))*cos(radians($t.breitengrad))*cos(radians($t.laengengrad)-radians(?))+sin(radians(?))*sin(radians($t.breitengrad)))) <= ?";
-        $arrValues[] = $this->realEstate->breitengrad;
-        $arrValues[] = $this->realEstate->laengengrad;
-        $arrValues[] = $this->realEstate->breitengrad;
-        $arrValues[] = $this->similarDistance;
+        if($areaTo)
+        {
+            $arrColumns[] = "$t.".$objType->area."<=?";
+            $arrValues[] = floor($areaTo + ($areaTo * ($this->filterCoarse / 100)));
+        }
+
+        if($this->similarDistance > 0)
+        {
+            $arrColumns[] = "(6371*acos(cos(radians(?))*cos(radians($t.breitengrad))*cos(radians($t.laengengrad)-radians(?))+sin(radians(?))*sin(radians($t.breitengrad)))) <= ?";
+            $arrValues[] = $this->realEstate->breitengrad;
+            $arrValues[] = $this->realEstate->laengengrad;
+            $arrValues[] = $this->realEstate->breitengrad;
+            $arrValues[] = $this->similarDistance;
+        }
 
         // HOOK: custom filter
         if (isset($GLOBALS['TL_HOOKS']['getSimilarFilterOptions']) && \is_array($GLOBALS['TL_HOOKS']['getSimilarFilterOptions']))

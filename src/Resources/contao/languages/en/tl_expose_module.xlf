@@ -18,7 +18,7 @@
         <source>Maximum distance</source>
       </trans-unit>
       <trans-unit id="tl_expose_module.similarDistance.1">
-        <source>Here you can enter the radius in km in which similar real estate are considered.</source>
+        <source>Here you can enter the radius in km in which similar real estate are considered. Enter 0 to not perform a proximity search.</source>
       </trans-unit>
     </body>
   </file>
