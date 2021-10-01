@@ -1,20 +1,24 @@
 <?php
-/**
+
+declare(strict_types=1);
+
+/*
  * This file is part of Contao EstateManager.
  *
- * @link      https://www.contao-estatemanager.com/
- * @source    https://github.com/contao-estatemanager/similar
- * @copyright Copyright (c) 2019  Oveleon GbR (https://www.oveleon.de)
- * @license   https://www.contao-estatemanager.com/lizenzbedingungen.html
+ * @see        https://www.contao-estatemanager.com/
+ * @source     https://github.com/contao-estatemanager/similar
+ * @copyright  Copyright (c) 2021 Oveleon GbR (https://www.oveleon.de)
+ * @license    https://www.contao-estatemanager.com/lizenzbedingungen.html
  */
 
 namespace ContaoEstateManager\Similar;
 
 use Contao\BackendTemplate;
+use Contao\Model\Collection;
 use Contao\PageModel;
 use ContaoEstateManager\ExposeModule;
-use ContaoEstateManager\RealEstateModel;
 use ContaoEstateManager\FilterSession;
+use ContaoEstateManager\RealEstateModel;
 use Patchwork\Utf8;
 
 /**
@@ -25,32 +29,34 @@ use Patchwork\Utf8;
 class ExposeModuleSimilar extends ExposeModule
 {
     /**
-     * Filter session object
+     * Filter session object.
+     *
      * @var FilterSession
      */
     protected $objFilterSession;
 
     /**
-     * Template
+     * Template.
+     *
      * @var string
      */
     protected $strTemplate = 'expose_mod_similar';
 
     /**
-     * Do not display the module if there are no real etates
+     * Do not display the module if there are no real etates.
      *
      * @return string
      */
     public function generate()
     {
-        if (TL_MODE == 'BE')
+        if (TL_MODE === 'BE')
         {
             $objTemplate = new BackendTemplate('be_wildcard');
-            $objTemplate->wildcard = '### ' . Utf8::strtoupper($GLOBALS['TL_LANG']['FMD']['similar'][0]) . ' ###';
+            $objTemplate->wildcard = '### '.Utf8::strtoupper($GLOBALS['TL_LANG']['FMD']['similar'][0]).' ###';
             $objTemplate->title = $this->headline;
             $objTemplate->id = $this->id;
             $objTemplate->link = $this->name;
-            $objTemplate->href = 'contao/main.php?do=expose_module&amp;act=edit&amp;id=' . $this->id;
+            $objTemplate->href = 'contao/main.php?do=expose_module&amp;act=edit&amp;id='.$this->id;
 
             return $objTemplate->parse();
         }
@@ -58,63 +64,62 @@ class ExposeModuleSimilar extends ExposeModule
         $this->objFilterSession = FilterSession::getInstance();
 
         $strBuffer = parent::generate();
-        return $this->isEmpty && !!$this->hideOnEmpty ? '' : $strBuffer;
+
+        return $this->isEmpty && (bool) $this->hideOnEmpty ? '' : $strBuffer;
     }
 
     /**
-     * Generate the module
+     * Generate the module.
      */
-    protected function compile()
+    protected function compile(): void
     {
         $this->parseRealEstateList();
     }
 
     /**
-     * Count the total matching items
-     *
-     * @return integer
+     * Count the total matching items.
      */
     protected function countItems(): int
     {
         $arrFilterOptions = $this->getFilterOptions();
 
-        if ($arrFilterOptions === null)
+        if (null === $arrFilterOptions)
         {
             return 0;
         }
 
-        list($arrColumns, $arrValues, $arrOptions) = $arrFilterOptions;
+        [$arrColumns, $arrValues, $arrOptions] = $arrFilterOptions;
 
         return RealEstateModel::countPublishedBy($arrColumns, $arrValues, $arrOptions);
     }
 
     /**
-     * Fetch the matching items
+     * Fetch the matching items.
      *
-     * @param integer $limit
-     * @param integer $offset
+     * @param int $limit
+     * @param int $offset
      *
-     * @return Contao\Model\Collection|RealEstateModel|null
+     * @return Collection|RealEstateModel|null
      */
     protected function fetchItems($limit, $offset): ?object
     {
         $arrFilterOptions = $this->getFilterOptions();
 
-        if ($arrFilterOptions === null)
+        if (null === $arrFilterOptions)
         {
             return null;
         }
 
-        list($arrColumns, $arrValues, $arrOptions) = $arrFilterOptions;
+        [$arrColumns, $arrValues, $arrOptions] = $arrFilterOptions;
 
-        $arrOptions['limit']  = $limit;
+        $arrOptions['limit'] = $limit;
         $arrOptions['offset'] = $offset;
 
         return RealEstateModel::findPublishedBy($arrColumns, $arrValues, $arrOptions);
     }
 
     /**
-     * Collect necessary filter parameter for similar real estates and return it as array
+     * Collect necessary filter parameter for similar real estates and return it as array.
      *
      * @return array
      */
@@ -122,9 +127,9 @@ class ExposeModuleSimilar extends ExposeModule
     {
         $t = 'tl_real_estate';
 
-        $arrColumns = array();
-        $arrValues = array();
-        $arrOptions = array();
+        $arrColumns = [];
+        $arrValues = [];
+        $arrOptions = [];
 
         /** @var PageModel $objPage */
         global $objPage;
@@ -135,7 +140,7 @@ class ExposeModuleSimilar extends ExposeModule
         if ($objRootPage->realEstateQueryLanguage)
         {
             $arrColumns[] = "$t.sprache=?";
-            $arrValues[]  = $objRootPage->realEstateQueryLanguage;
+            $arrValues[] = $objRootPage->realEstateQueryLanguage;
         }
 
         $arrColumns[] = "$t.id!=?";
@@ -143,121 +148,123 @@ class ExposeModuleSimilar extends ExposeModule
 
         $objType = $this->realEstate->getType();
 
-        if ($objType === null)
+        if (null === $objType)
         {
             return null;
         }
 
-        if ($objType->vermarktungsart === 'kauf_erbpacht')
+        if ('kauf_erbpacht' === $objType->vermarktungsart)
         {
             $arrColumns[] = "($t.vermarktungsartKauf='1' OR $t.vermarktungsartErbpacht='1')";
         }
-        elseif ($objType->vermarktungsart === 'miete_leasing')
+        elseif ('miete_leasing' === $objType->vermarktungsart)
         {
             $arrColumns[] = "($t.vermarktungsartMietePacht='1' OR $t.vermarktungsartLeasing='1')";
         }
+
         if (!empty($objType->nutzungsart))
         {
             $arrColumns[] = "$t.nutzungsart=?";
             $arrValues[] = $objType->nutzungsart;
         }
+
         if (!empty($objType->objektart))
         {
             $arrColumns[] = "$t.objektart=?";
             $arrValues[] = $objType->objektart;
         }
 
-        if ($_SESSION['FILTER_DATA']['price_from'])
+        if ($_SESSION['FILTER_DATA']['price_from'] ?? null)
         {
-            $priceFrom = intval($_SESSION['FILTER_DATA']['price_from']);
+            $priceFrom = (int) ($_SESSION['FILTER_DATA']['price_from']);
         }
-        elseif($this->realEstate->{$objType->price})
+        elseif ($this->realEstate->{$objType->price})
         {
             $priceFrom = $this->realEstate->{$objType->price};
         }
 
-        if($priceFrom)
+        if ($priceFrom ?? null)
         {
-            $arrColumns[] = "$t.".$objType->price.">=?";
-            $arrValues[] = ($priceFrom - ($priceFrom * ($this->filterCoarse / 100))) > 0 ?: 0;
+            $arrColumns[] = "$t.".$objType->price.'>=?';
+            $arrValues[] = $priceFrom - ($priceFrom * $this->filterCoarse / 100) > 0 ?: 0;
         }
 
-        if ($_SESSION['FILTER_DATA']['price_to'])
+        if ($_SESSION['FILTER_DATA']['price_to'] ?? null)
         {
-            $priceTo = intval($_SESSION['FILTER_DATA']['price_to']);
+            $priceTo = (int) ($_SESSION['FILTER_DATA']['price_to']);
         }
-        elseif($this->realEstate->{$objType->price})
+        elseif ($this->realEstate->{$objType->price})
         {
             $priceTo = $this->realEstate->{$objType->price};
         }
 
-        if($priceTo)
+        if ($priceTo ?? null)
         {
-            $arrColumns[] = "$t.".$objType->price."<=?";
-            $arrValues[] = ($priceTo + ($priceTo * ($this->filterCoarse / 100)));
+            $arrColumns[] = "$t.".$objType->price.'<=?';
+            $arrValues[] = $priceTo + ($priceTo * $this->filterCoarse / 100);
         }
 
-        if ($_SESSION['FILTER_DATA']['room_from'])
+        if ($_SESSION['FILTER_DATA']['room_from'] ?? null)
         {
-            $roomFrom = intval($_SESSION['FILTER_DATA']['room_from']);
+            $roomFrom = (int) ($_SESSION['FILTER_DATA']['room_from']);
         }
-        elseif($this->realEstate->anzahlZimmer)
+        elseif ($this->realEstate->anzahlZimmer)
         {
             $roomFrom = $this->realEstate->anzahlZimmer;
         }
 
-        if($roomFrom)
+        if ($roomFrom ?? null)
         {
             $arrColumns[] = "$t.anzahlZimmer>=?";
-            $arrValues[] = floor($roomFrom - ($roomFrom * ($this->filterCoarse / 100))) > 0 ?: 0;
+            $arrValues[] = floor($roomFrom - ($roomFrom * $this->filterCoarse / 100)) > 0 ?: 0;
         }
 
-        if ($_SESSION['FILTER_DATA']['room_to'])
+        if ($_SESSION['FILTER_DATA']['room_to'] ?? null)
         {
-            $roomTo = intval($_SESSION['FILTER_DATA']['room_to']);
+            $roomTo = (int) ($_SESSION['FILTER_DATA']['room_to']);
         }
-        elseif($this->realEstate->anzahlZimmer)
+        elseif ($this->realEstate->anzahlZimmer)
         {
             $roomTo = $this->realEstate->anzahlZimmer;
         }
 
-        if($roomTo)
+        if ($roomTo ?? null)
         {
             $arrColumns[] = "$t.anzahlZimmer<=?";
-            $arrValues[] = ceil($roomTo + ($roomTo * ($this->filterCoarse / 100)));
+            $arrValues[] = ceil($roomTo + ($roomTo * $this->filterCoarse / 100));
         }
 
-        if ($_SESSION['FILTER_DATA']['area_from'])
+        if ($_SESSION['FILTER_DATA']['area_from'] ?? null)
         {
-            $areaFrom = intval($_SESSION['FILTER_DATA']['area_from']);
+            $areaFrom = (int) ($_SESSION['FILTER_DATA']['area_from']);
         }
-        elseif($this->realEstate->{$objType->area})
+        elseif ($this->realEstate->{$objType->area})
         {
             $areaFrom = $this->realEstate->{$objType->area};
         }
 
-        if($areaFrom)
+        if ($areaFrom ?? null)
         {
-            $arrColumns[] = "$t.".$objType->area.">=?";
-            $arrValues[] = ($areaFrom - ($areaFrom * ($this->filterCoarse / 100))) > 0 ?: 0;
+            $arrColumns[] = "$t.".$objType->area.'>=?';
+            $arrValues[] = $areaFrom - ($areaFrom * $this->filterCoarse / 100) > 0 ?: 0;
         }
 
-        if ($_SESSION['FILTER_DATA']['area_to'])
+        if ($_SESSION['FILTER_DATA']['area_to'] ?? null)
         {
-            $areaTo = intval($_SESSION['FILTER_DATA']['area_to']);
+            $areaTo = (int) ($_SESSION['FILTER_DATA']['area_to']);
         }
-        elseif($this->realEstate->{$objType->area})
+        elseif ($this->realEstate->{$objType->area})
         {
-            $areaTo =  $this->realEstate->{$objType->area};
-        }
-
-        if($areaTo)
-        {
-            $arrColumns[] = "$t.".$objType->area."<=?";
-            $arrValues[] = floor($areaTo + ($areaTo * ($this->filterCoarse / 100)));
+            $areaTo = $this->realEstate->{$objType->area};
         }
 
-        if($this->similarDistance > 0)
+        if ($areaTo ?? null)
+        {
+            $arrColumns[] = "$t.".$objType->area.'<=?';
+            $arrValues[] = floor($areaTo + ($areaTo * $this->filterCoarse / 100));
+        }
+
+        if ($this->similarDistance > 0)
         {
             $arrColumns[] = "(6371*acos(cos(radians(?))*cos(radians($t.breitengrad))*cos(radians($t.laengengrad)-radians(?))+sin(radians(?))*sin(radians($t.breitengrad)))) <= ?";
             $arrValues[] = $this->realEstate->breitengrad;
@@ -276,6 +283,6 @@ class ExposeModuleSimilar extends ExposeModule
             }
         }
 
-        return array($arrColumns, $arrValues, $arrOptions);
+        return [$arrColumns, $arrValues, $arrOptions];
     }
 }
