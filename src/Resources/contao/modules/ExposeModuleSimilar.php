@@ -17,7 +17,6 @@ use Contao\BackendTemplate;
 use Contao\Model\Collection;
 use Contao\PageModel;
 use ContaoEstateManager\ExposeModule;
-use ContaoEstateManager\FilterSession;
 use ContaoEstateManager\RealEstateModel;
 use Patchwork\Utf8;
 
@@ -29,13 +28,6 @@ use Patchwork\Utf8;
 class ExposeModuleSimilar extends ExposeModule
 {
     /**
-     * Filter session object.
-     *
-     * @var FilterSession
-     */
-    protected $objFilterSession;
-
-    /**
      * Template.
      *
      * @var string
@@ -43,7 +35,7 @@ class ExposeModuleSimilar extends ExposeModule
     protected $strTemplate = 'expose_mod_similar';
 
     /**
-     * Do not display the module if there are no real etates.
+     * Do not display the module if there are no real estates.
      *
      * @return string
      */
@@ -60,8 +52,6 @@ class ExposeModuleSimilar extends ExposeModule
 
             return $objTemplate->parse();
         }
-
-        $this->objFilterSession = FilterSession::getInstance();
 
         $strBuffer = parent::generate();
 
