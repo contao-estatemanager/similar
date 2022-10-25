@@ -15,7 +15,7 @@ use ContaoEstateManager\Similar\AddonManager;
 
 if (AddonManager::valid())
 {
-    // Add palete
+    // Add palette
     $GLOBALS['TL_DCA']['tl_expose_module']['palettes']['similar'] = '{title_legend},name,headline,type;{settings_legend},jumpTo,numberOfItems,perPage,filterCoarse,similarDistance,hideOnEmpty;{image_legend:hide},imgSize;{template_legend:hide},customTpl,realEstateTemplate;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID';
 
     // Add fields

@@ -18,7 +18,6 @@ use Contao\Model\Collection;
 use Contao\PageModel;
 use ContaoEstateManager\ExposeModule;
 use ContaoEstateManager\RealEstateModel;
-use Patchwork\Utf8;
 
 /**
  * Expose module "similar".
@@ -44,7 +43,7 @@ class ExposeModuleSimilar extends ExposeModule
         if (TL_MODE === 'BE')
         {
             $objTemplate = new BackendTemplate('be_wildcard');
-            $objTemplate->wildcard = '### '.Utf8::strtoupper($GLOBALS['TL_LANG']['FMD']['similar'][0]).' ###';
+            $objTemplate->wildcard = '### '.mb_strtoupper($GLOBALS['TL_LANG']['FMD']['similar'][0], 'UTF-8').' ###';
             $objTemplate->title = $this->headline;
             $objTemplate->id = $this->id;
             $objTemplate->link = $this->name;
